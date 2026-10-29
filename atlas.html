@@ -1,0 +1,964 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Mundial | Explora o nosso planeta</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-escuro: #06284f;
+            --azul: #0878f9;
+            --fundo: white;
+            --texto: #173554;
+            --cinzento: #60758c;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--fundo);
+            color: var(--texto);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        header {
+            background: var(--azul-escuro);
+            color: black;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #76c4ff;
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        nav a:hover {
+            color: #76c4ff;
+        }
+
+        .hero {
+            min-height: 390px;
+            padding: 65px 7%;
+            color: white;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(90deg, #05264ff2, #05264f65),
+                url("https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&w=1800&q=85")
+                center / cover;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero small {
+            color: #9bd4ff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .hero h1 {
+            font-size: clamp(35px, 5vw, 55px);
+            line-height: 1.1;
+            margin: 15px 0;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .search {
+            display: flex;
+            background: white;
+            padding: 5px;
+            border-radius: 40px;
+            max-width: 550px;
+        }
+
+        .search input {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 15px;
+            border: none;
+            outline: none;
+            border-radius: 30px;
+        }
+
+        .search button {
+            background: var(--azul);
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .search button:hover {
+            background: #005bc5;
+        }
+
+        .atalhos {
+            background: white;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            padding: 25px 5%;
+            gap: 15px;
+            border-bottom: 1px solid #dce7f1;
+        }
+
+        .atalho {
+            text-align: center;
+            padding: 10px 5px;
+            border-right: 1px solid #e0e9f2;
+        }
+
+        .atalho:last-child {
+            border: none;
+        }
+
+        .atalho .icone {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .atalho h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .atalho p {
+            font-size: 12px;
+            color: var(--cinzento);
+            line-height: 1.5;
+        }
+
+        main {
+            width: 90%;
+            max-width: 1400px;
+            margin: 35px auto;
+        }
+
+        .secao {
+            margin-bottom: 45px;
+            scroll-margin-top: 25px;
+        }
+
+        .titulo-secao {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .titulo-secao h2 {
+            font-size: 27px;
+            margin-bottom: 5px;
+        }
+
+        .titulo-secao p {
+            color: var(--cinzento);
+            font-size: 14px;
+        }
+
+        .continentes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .continente {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px #1735540c;
+            transition: transform 0.2s;
+        }
+
+        .continente:hover,
+        .pais:hover,
+        .artigo:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px #17355419;
+        }
+
+        .continente img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .continente-info {
+            padding: 15px;
+        }
+
+        .continente-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .continente-info p {
+            font-size: 13px;
+            color: var(--cinzento);
+        }
+
+        .paises {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .pais {
+            background: white;
+            border: 1px solid #e0e9f2;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+
+        .pais img {
+            width: 100%;
+            height: 155px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .pais-info {
+            padding: 15px;
+        }
+
+        .pais h3 {
+            margin-bottom: 8px;
+        }
+
+        .pais p {
+            font-size: 13px;
+            color: var(--cinzento);
+            line-height: 1.7;
+        }
+
+        .pais button {
+            margin-top: 12px;
+            padding: 9px 13px;
+            background: #e8f3ff;
+            color: #0759a6;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .pais button:hover {
+            background: #d2e8ff;
+        }
+
+        .artigos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .artigo {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e0e9f2;
+            transition: 0.2s;
+        }
+
+        .artigo img {
+            width: 100%;
+            height: 175px;
+            object-fit: cover;
+        }
+
+        .artigo-info {
+            padding: 15px;
+        }
+
+        .categoria {
+            color: var(--azul);
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .artigo h3 {
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        .artigo p {
+            color: var(--cinzento);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .mapa {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e0e9f2;
+        }
+
+        .mapa img {
+            width: 100%;
+            max-height: 430px;
+            object-fit: contain;
+            margin-top: 15px;
+        }
+
+        .mapa p {
+            color: var(--cinzento);
+            margin-top: 8px;
+            line-height: 1.7;
+        }
+
+        .mensagem {
+            display: none;
+            padding: 15px;
+            background: white;
+            border: 1px solid #dce7f1;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        footer {
+            background: var(--azul-escuro);
+            color: white;
+            padding: 35px 6% 20px;
+        }
+
+        .footer-conteudo {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 30px;
+        }
+
+        footer h3, footer h4 {
+            margin-bottom: 12px;
+        }
+
+        footer p, footer a {
+            font-size: 13px;
+            line-height: 1.9;
+            color: #d3e4f7;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+        }
+
+        footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            border-top: 1px solid #315477;
+            padding-top: 15px;
+            font-size: 12px;
+            color: #c4d8ed;
+        }
+
+        dialog {
+            width: min(500px, 90%);
+            margin: auto;
+            border: none;
+            border-radius: 12px;
+            padding: 25px;
+            color: var(--texto);
+        }
+
+        dialog::backdrop {
+            background: #00172dcc;
+        }
+
+        dialog h2 {
+            margin-bottom: 12px;
+        }
+
+        dialog p {
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        dialog button {
+            background: var(--azul);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .atalhos {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .atalho:nth-child(3) {
+                border-right: none;
+            }
+
+            .continentes,
+            .paises,
+            .artigos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            nav {
+                gap: 12px;
+                font-size: 13px;
+            }
+
+            .hero {
+                padding: 45px 5%;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            main {
+                width: 92%;
+            }
+
+            .atalhos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .atalho {
+                border-right: none;
+                border-bottom: 1px solid #e0e9f2;
+            }
+
+            .continentes,
+            .paises,
+            .artigos,
+            .footer-conteudo {
+                grid-template-columns: 1fr;
+            }
+
+            .titulo-secao h2 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a class="logo" href="#inicio">🌍 Atlas <span>Mundial</span></a>
+
+    <nav>
+        <a href="#inicio">Início</a>
+        <a href="#paises">Países</a>
+        <a href="#continentes">Continentes</a>
+        <a href="#mapas">Mapas</a>
+        <a href="#natureza">Natureza</a>
+        <a href="#artigos">Artigos</a>
+    </nav>
+</header>
+
+<section class="hero" id="inicio">
+    <div class="hero-content">
+        <small>Atlas Mundial</small>
+
+        <h1>Descobre o mundo, um país de cada vez</h1>
+
+        <p>
+            Explora países, mapas, continentes, natureza e artigos
+            sobre o nosso incrível planeta.
+        </p>
+
+        <form class="search" id="searchForm">
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Pesquisar país, continente ou tema..."
+                aria-label="Pesquisar"
+            >
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+</section>
+
+<section class="atalhos">
+    <a class="atalho" href="#paises">
+        <div class="icone">🌐</div>
+        <h3>Países</h3>
+        <p>Descobre países do mundo</p>
+    </a>
+
+    <a class="atalho" href="#mapas">
+        <div class="icone">🗺️</div>
+        <h3>Mapas</h3>
+        <p>Explora mapas do planeta</p>
+    </a>
+
+    <a class="atalho" href="#continentes">
+        <div class="icone">🧭</div>
+        <h3>Continentes</h3>
+        <p>Conhece as regiões da Terra</p>
+    </a>
+
+    <a class="atalho" href="#natureza">
+        <div class="icone">⛰️</div>
+        <h3>Natureza</h3>
+        <p>Montanhas, rios e oceanos</p>
+    </a>
+
+    <a class="atalho" href="#artigos">
+        <div class="icone">📚</div>
+        <h3>Artigos</h3>
+        <p>Curiosidades sobre o mundo</p>
+    </a>
+
+    <a class="atalho" href="#artigos">
+        <div class="icone">✈️</div>
+        <h3>Viagens</h3>
+        <p>Inspiração para explorar</p>
+    </a>
+</section>
+
+<main>
+    <div class="mensagem" id="mensagem"></div>
+
+    <section class="secao" id="continentes">
+        <div class="titulo-secao">
+            <div>
+                <h2>Continentes</h2>
+                <p>Descobre as paisagens e culturas de cada região.</p>
+            </div>
+        </div>
+
+        <div class="continentes">
+            <article class="continente pesquisavel" data-search="África savana animais">
+                <img src="images/africacontinent.jpg" alt="Paisagem africana">
+                <div class="continente-info">
+                    <h3>🌍 África</h3>
+                    <p>Desertos, savanas e uma enorme diversidade cultural.</p>
+                </div>
+            </article>
+
+            <article class="continente pesquisavel" data-search="América do Norte Canadá Estados Unidos">
+                <img src="images/northamericacontinent.avif" alt="Montanhas">
+                <div class="continente-info">
+                    <h3>🌎 América do Norte</h3>
+                    <p>Grandes cidades, florestas, lagos e montanhas.</p>
+                </div>
+            </article>
+
+            <article class="continente pesquisavel" data-search="América do Sul Brasil Andes Amazónia">
+                <img src="images/south_america-2.jpg" alt="Machu Picchu">
+                <div class="continente-info">
+                    <h3>🌎 América do Sul</h3>
+                    <p>A Amazónia, os Andes e paisagens extraordinárias.</p>
+                </div>
+            </article>
+
+            <article class="continente pesquisavel" data-search="Ásia Japão China Índia">
+                <img src="images/asia.jpg" alt="Paisagem japonesa">
+                <div class="continente-info">
+                    <h3>🌏 Ásia</h3>
+                    <p>Tradições antigas e algumas das maiores cidades.</p>
+                </div>
+            </article>
+
+            <article class="continente pesquisavel" data-search="Europa Portugal França Itália">
+                <img src="images/europe.jpg" alt="Paris">
+                <div class="continente-info">
+                    <h3>🌍 Europa</h3>
+                    <p>História, arquitetura e uma grande diversidade cultural.</p>
+                </div>
+            </article>
+
+            <article class="continente pesquisavel" data-search="Oceânia Austrália Nova Zelândia">
+                <img src="images/oceania-1.webp" alt="Costa australiana">
+                <div class="continente-info">
+                    <h3>🌏 Oceânia</h3>
+                    <p>Ilhas, recifes, praias e natureza singular.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="secao" id="paises">
+        <div class="titulo-secao">
+            <div>
+                <h2>Países em destaque</h2>
+                <p>Conhece alguns dos países mais fascinantes do mundo.</p>
+            </div>
+        </div>
+
+        <div class="paises">
+            <article class="pais pesquisavel" data-search="Portugal Lisboa Europa português">
+                <img src="images/Portugal.webp" alt="Portugal">
+                <div class="pais-info">
+                    <h3>🇵🇹 Portugal</h3>
+                    <p>Capital: Lisboa</p>
+                    <p>Continente: Europa</p>
+                    <button onclick="mostrarPais('Portugal')">Explorar país →</button>
+                </div>
+            </article>
+
+            <article class="pais pesquisavel" data-search="Brasil Brasília América do Sul">
+                <img src="images/brazil.jpg" alt="Brasil">
+                <div class="pais-info">
+                    <h3>🇧🇷 Brasil</h3>
+                    <p>Capital: Brasília</p>
+                    <p>Continente: América do Sul</p>
+                    <button onclick="mostrarPais('Brasil')">Explorar país →</button>
+                </div>
+            </article>
+
+            <article class="pais pesquisavel" data-search="Estados Unidos Washington América do Norte">
+                <img src="images/USA.jpg" alt="Estados Unidos">
+                <div class="pais-info">
+                    <h3>🇺🇸 Estados Unidos</h3>
+                    <p>Capital: Washington, D.C.</p>
+                    <p>Continente: América do Norte</p>
+                    <button onclick="mostrarPais('Estados Unidos')">Explorar país →</button>
+                </div>
+            </article>
+
+            <article class="pais pesquisavel" data-search="Japão Tóquio Ásia">
+                <img src="images/japan.jpg" alt="Japão">
+                <div class="pais-info">
+                    <h3>🇯🇵 Japão</h3>
+                    <p>Capital: Tóquio</p>
+                    <p>Continente: Ásia</p>
+                    <button onclick="mostrarPais('Japão')">Explorar país →</button>
+                </div>
+            </article>
+
+            <article class="pais pesquisavel" data-search="Canadá Ottawa América do Norte">
+                <img src="images/canada.webp" alt="Canadá">
+                <div class="pais-info">
+                    <h3>🇨🇦 Canadá</h3>
+                    <p>Capital: Ottawa</p>
+                    <p>Continente: América do Norte</p>
+                    <button onclick="mostrarPais('Canadá')">Explorar país →</button>
+                </div>
+            </article>
+
+            <article class="pais pesquisavel" data-search="Austrália Camberra Oceânia">
+                <img src="images/australia.webp" alt="Austrália">
+                <div class="pais-info">
+                    <h3>🇦🇺 Austrália</h3>
+                    <p>Capital: Camberra</p>
+                    <p>Continente: Oceânia</p>
+                    <button onclick="mostrarPais('Austrália')">Explorar país →</button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="secao" id="mapas">
+        <div class="titulo-secao">
+            <div>
+                <h2>Mapas do mundo</h2>
+                <p>Consulta um mapa e começa a explorar.</p>
+            </div>
+        </div>
+
+        <div class="mapa">
+            <h3>🗺️ Explora o mapa-múndi</h3>
+            <p>Usa o mapa interativo para procurar lugares, cidades e países.</p>
+            <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">
+                <img src="images/mariner-globe-252819.webp" alt="Mapa do mundo">
+            </a>
+            <p><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">Abrir mapa interativo →</a></p>
+        </div>
+    </section>
+
+    <section class="secao" id="natureza">
+        <div class="titulo-secao">
+            <div>
+                <h2>Natureza e geografia</h2>
+                <p>Explora os ambientes naturais do nosso planeta.</p>
+            </div>
+        </div>
+
+        <div class="artigos">
+            <article class="artigo pesquisavel" data-search="natureza montanhas Everest Himalaias">
+                <img src="images/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg" alt="Montanhas">
+                <div class="artigo-info">
+                    <span class="categoria">Montanhas</span>
+                    <h3>As montanhas mais altas do mundo</h3>
+                    <p>Descobre os picos que dominam as grandes cordilheiras.</p>
+                </div>
+            </article>
+
+            <article class="artigo pesquisavel" data-search="oceanos mares água natureza">
+                <img src="images/sea.jpg" alt="Oceano">
+                <div class="artigo-info">
+                    <span class="categoria">Oceanos</span>
+                    <h3>Os segredos dos oceanos</h3>
+                    <p>Conhece os vastos ecossistemas que cobrem a Terra.</p>
+                </div>
+            </article>
+
+            <article class="artigo pesquisavel" data-search="floresta Amazónia natureza biodiversidade">
+                <img src="images/forest.png" alt="Floresta">
+                <div class="artigo-info">
+                    <span class="categoria">Florestas</span>
+                    <h3>As grandes florestas do planeta</h3>
+                    <p>Explora habitats importantes para a biodiversidade.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="secao" id="artigos">
+        <div class="titulo-secao">
+            <div>
+                <h2>Artigos e curiosidades</h2>
+                <p>Aprende algo novo sobre o mundo.</p>
+            </div>
+        </div>
+
+        <div class="artigos">
+            <article class="artigo pesquisavel" data-search="viagens Europa destinos Grécia">
+                <img src="images/Greece.webp" alt="Ilha grega">
+                <div class="artigo-info">
+                    <span class="categoria">Viagens</span>
+                    <h3>Destinos incríveis para conhecer</h3>
+                    <p>Inspira-te em paisagens e cidades de todo o mundo.</p>
+                </div>
+            </article>
+
+            <article class="artigo pesquisavel" data-search="cultura tradições países mundo">
+                <img src="images/tajmahal.webp" alt="Património cultural">
+                <div class="artigo-info">
+                    <span class="categoria">Cultura</span>
+                    <h3>Tradições culturais pelo mundo</h3>
+                    <p>Descobre costumes e patrimónios de diferentes povos.</p>
+                </div>
+            </article>
+
+            <article class="artigo pesquisavel" data-search="rios geografia Amazonas Nilo">
+                <img src="images/autumn.jpg" alt="Rio e cascata">
+                <div class="artigo-info">
+                    <span class="categoria">Geografia</span>
+                    <h3>Os grandes rios da Terra</h3>
+                    <p>Descobre cursos de água essenciais para a vida.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-conteudo">
+        <div>
+            <h3>🌍 Atlas Mundial</h3>
+            <p>O teu guia para descobrir países, mapas, continentes, natureza e muito mais.</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Explorar</h4>
+            <a href="#paises">Países</a>
+            <a href="#continentes">Continentes</a>
+            <a href="#mapas">Mapas</a>
+            <a href="#natureza">Natureza</a>
+            <a href="#artigos">Artigos</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Continentes</h4>
+            <a href="#continentes">África</a>
+            <a href="#continentes">América</a>
+            <a href="#continentes">Ásia</a>
+            <a href="#continentes">Europa</a>
+            <a href="#continentes">Oceânia</a>
+        </div>
+    </div>
+
+    <div class="copyright">
+        © <span id="ano"></span> Atlas Mundial. Todos os direitos reservados.
+    </div>
+</footer>
+
+<dialog id="janelaPais">
+    <h2 id="nomePais"></h2>
+    <p id="detalhesPais"></p>
+    <button onclick="document.getElementById('janelaPais').close()">Fechar</button>
+</dialog>
+
+<script>
+    const paises = {
+        "Portugal": {
+            capital: "Lisboa",
+            continente: "Europa",
+            idioma: "Português",
+            moeda: "Euro",
+            descricao: "Portugal situa-se no sudoeste da Europa e é conhecido pela sua costa atlântica, cidades históricas, gastronomia e património cultural."
+        },
+
+        "Brasil": {
+            capital: "Brasília",
+            continente: "América do Sul",
+            idioma: "Português",
+            moeda: "Real brasileiro",
+            descricao: "O Brasil é o maior país da América do Sul e alberga grande parte da floresta Amazónica, além de uma enorme diversidade cultural e natural."
+        },
+
+        "Estados Unidos": {
+            capital: "Washington, D.C.",
+            continente: "América do Norte",
+            idioma: "Inglês predominante",
+            moeda: "Dólar americano",
+            descricao: "Os Estados Unidos apresentam paisagens muito variadas, grandes cidades, parques nacionais, montanhas e desertos."
+        },
+
+        "Japão": {
+            capital: "Tóquio",
+            continente: "Ásia",
+            idioma: "Japonês",
+            moeda: "Iene",
+            descricao: "O Japão é um arquipélago asiático conhecido pelas suas tradições, cidades modernas, montanhas vulcânicas e cultura singular."
+        },
+
+        "Canadá": {
+            capital: "Ottawa",
+            continente: "América do Norte",
+            idioma: "Inglês e francês",
+            moeda: "Dólar canadiano",
+            descricao: "O Canadá é conhecido pelas suas vastas florestas, lagos, montanhas e cidades multiculturais."
+        },
+
+        "Austrália": {
+            capital: "Camberra",
+            continente: "Oceânia",
+            idioma: "Inglês predominante",
+            moeda: "Dólar australiano",
+            descricao: "A Austrália é conhecida pelas suas praias, recifes, paisagens áridas e fauna singular."
+        }
+    };
+
+    function mostrarPais(nome) {
+        const pais = paises[nome];
+
+        if (!pais) {
+            alert("Ainda não existe informação para este país.");
+            return;
+        }
+
+        document.getElementById("nomePais").textContent = nome;
+
+        document.getElementById("detalhesPais").textContent =
+            "Capital: " + pais.capital +
+            " | Continente: " + pais.continente +
+            " | Idioma: " + pais.idioma +
+            " | Moeda: " + pais.moeda +
+            ". " + pais.descricao;
+
+        document.getElementById("janelaPais").showModal();
+    }
+
+    function normalizar(texto) {
+        return texto
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+    }
+
+    function pesquisar() {
+        const consulta = normalizar(
+            document.getElementById("searchInput").value
+        );
+
+        const elementos = document.querySelectorAll(".pesquisavel");
+        let encontrados = 0;
+
+        elementos.forEach(elemento => {
+            const texto = normalizar(
+                (elemento.dataset.search || "") + " " +
+                elemento.innerText
+            );
+
+            const corresponde =
+                consulta === "" || texto.includes(consulta);
+
+            elemento.style.display = corresponde ? "" : "none";
+
+            if (corresponde) {
+                encontrados++;
+            }
+        });
+
+        const mensagem = document.getElementById("mensagem");
+
+        if (consulta !== "" && encontrados === 0) {
+            mensagem.textContent =
+                "Não foram encontrados resultados. Experimenta pesquisar outro país ou tema.";
+
+            mensagem.style.display = "block";
+        } else {
+            mensagem.style.display = "none";
+        }
+    }
+
+    document.getElementById("searchForm").addEventListener("submit", function(evento) {
+        evento.preventDefault();
+        pesquisar();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", function() {
+        if (this.value.trim() === "") {
+            pesquisar();
+        }
+    });
+
+    document.getElementById("ano").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
